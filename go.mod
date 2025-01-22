@@ -4,6 +4,7 @@ go 1.23.4
 
 require (
 	connectrpc.com/connect v1.18.1
+	github.com/go-logr/logr v1.4.2
 	github.com/google/uuid v1.6.0
 	github.com/pkg/errors v0.9.1
 	github.com/stretchr/testify v1.10.0

@@ -4,11 +4,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"log"
 	"sync/atomic"
 
 	"connectrpc.com/connect"
+	"github.com/go-logr/logr"
 	v1 "github.com/rickliujh/kickstart-gogrpc/pkg/api/v1"
+	"github.com/rickliujh/kickstart-gogrpc/pkg/utils"
 	"google.golang.org/protobuf/types/known/anypb"
 
 	"github.com/pkg/errors"
@@ -31,6 +32,8 @@ func NewServer(name, version, environment string) (*Server, error) {
 	}
 
 	return &Server{
+		counter:     atomic.Uint64{},
+		logger:      utils.NewLogger(),
 		name:        name,
 		version:     version,
 		environment: environment,
@@ -40,9 +43,10 @@ func NewServer(name, version, environment string) (*Server, error) {
 // Server is used to implement your Service.
 type Server struct {
 	counter     atomic.Uint64 // counter for messages
-	name        string        // server name
-	version     string        // server version
-	environment string        // server environment
+	logger      *logr.Logger
+	name        string // server name
+	version     string // server version
+	environment string // server environment
 }
 
 func (s *Server) String() string {
@@ -72,11 +76,11 @@ func (s *Server) Scalar(ctx context.Context, req *connect.Request[v1.ScalarReque
 	var jsonOjb map[string]interface{}
 
 	if err := unpackAnyToJSON(c.GetData(), &jsonOjb); err != nil {
-		log.Fatalf("can't unmarshal from Content.data Any: %s", err)
+		s.logger.Error(err, "can't unmarshal from Content.data Any")
 		return nil, connect.NewError(connect.CodeInvalidArgument, err)
 	}
 
-	log.Printf("received scalar: %v", jsonOjb)
+	s.logger.V(4).Info("received scalar", "data", jsonOjb)
 
 	s.counter.Add(1)
 	res := connect.NewResponse(&v1.ScalarResponse{
@@ -93,12 +97,12 @@ func (s *Server) Stream(ctx context.Context, strm *connect.BidiStream[v1.StreamR
 	for {
 		in, err := strm.Receive()
 		if err != nil {
-			log.Println("failed to receive")
+			s.logger.Error(err, "failed to receive")
 			return connect.NewError(connect.CodeDataLoss, err)
 		}
 
 		c := in.GetContent()
-		log.Printf("received stream: %v", c.GetData())
+		s.logger.V(4).Info("received stream", "data", c.GetData())
 
 		s.counter.Add(1)
 		if err := strm.Send(&v1.StreamResponse{
@@ -107,7 +111,7 @@ func (s *Server) Stream(ctx context.Context, strm *connect.BidiStream[v1.StreamR
 			MessagesProcessed: s.GetCounter(),
 			ProcessingDetails: success,
 		}); err != nil {
-			log.Println("failed to send")
+			s.logger.Error(err, "failed to send")
 			return connect.NewError(connect.CodeUnavailable, err)
 		}
 	}
