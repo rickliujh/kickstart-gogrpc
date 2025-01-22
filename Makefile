@@ -1,10 +1,18 @@
-VERSION    :=$(shell cat .version)
-YAML_FILES :=$(shell find . ! -path "./vendor/*" -type f -regex ".*y*ml" -print)
-REG_URI    ?= example/repo
-REPO_NAME  :=$(shell basename $(PWD))
+VERSION		:=$(shell cat .version)
+YAML_FILES 	:=$(shell find . ! -path "./vendor/*" -type f -regex ".*y*ml" -print)
+REG_URI    	?= example/repo
+REPO_NAME  	:=$(shell basename $(PWD))
+DB_URI     	?= 
+MGRT_NAME  	?=
+MGRT_DIR   	:= ./sql/migrations/
+MGRT_DIRECTION	?=
 
 all: help
 
+.PHONY: init
+init: ## Init tools that used in the project
+	go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@v4.18.1
+	go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
 .PHONY: version
 version: ## Prints the current version
 	@echo $(VERSION)
@@ -40,8 +48,8 @@ vulncheck: ## Checks for soource vulnerabilities
 	govulncheck -test ./...
 
 .PHONY: server
-server: ## Runs uncpiled version of the server
-	go run cmd/server/main.go
+server: ## Runs uncpiled version of the server, needs env [DB_URI]
+	go run cmd/server/main.go -dburi $(DB_URI)
 
 .PHONY: image
 image: ## Builds the server images
@@ -77,6 +85,18 @@ pblint: ## Lint and format protobuf files
 .PHONY: pbgen
 pbgen: ## Generate protobuf
 	docker run --rm --volume "$(PWD):/workspace" --workdir /workspace bufbuild/buf generate
+
+.PHONY: dbgen
+dbgen: ## Compile sql to type-safe code
+	@sqlc generate
+
+.PHONY: mgrt-prep
+mgrt-prep: ## Prepare migration files, needs env [MGRT_NAME="init schema"]
+	migrate create -ext sql -dir $(MGRT_DIR) -seq $(MGRT_NAME)
+
+.PHONY: mgrt
+mgrt: ## Migrate schema, needs env [DB_URI="db connect uri"] [MGRT_DIRECTION=up|down]
+	migrate -database $(DB_URI) -path $(MGRT_DIR) $(MGRT_DIRECTION)
 
 .PHONY: help
 help: ## Display available commands

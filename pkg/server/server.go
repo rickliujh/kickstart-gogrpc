@@ -8,7 +8,9 @@ import (
 
 	"connectrpc.com/connect"
 	"github.com/go-logr/logr"
+	"github.com/jackc/pgx/v5/pgtype"
 	v1 "github.com/rickliujh/kickstart-gogrpc/pkg/api/v1"
+	"github.com/rickliujh/kickstart-gogrpc/pkg/sql"
 	"github.com/rickliujh/kickstart-gogrpc/pkg/utils"
 	"google.golang.org/protobuf/types/known/anypb"
 
@@ -20,7 +22,7 @@ const (
 	success  = "processed successfully"
 )
 
-func NewServer(name, version, environment string) (*Server, error) {
+func NewServer(name, version, environment string, db *sql.Queries) (*Server, error) {
 	if name == "" {
 		return nil, errors.New("name is required")
 	}
@@ -33,7 +35,8 @@ func NewServer(name, version, environment string) (*Server, error) {
 
 	return &Server{
 		counter:     atomic.Uint64{},
-		logger:      utils.NewLogger(),
+		logger:      utils.NewLogger(4),
+		db:          db,
 		name:        name,
 		version:     version,
 		environment: environment,
@@ -44,13 +47,14 @@ func NewServer(name, version, environment string) (*Server, error) {
 type Server struct {
 	counter     atomic.Uint64 // counter for messages
 	logger      *logr.Logger
+	db          *sql.Queries
 	name        string // server name
 	version     string // server version
 	environment string // server environment
 }
 
 func (s *Server) String() string {
-	return fmt.Sprintf("%s (%s) v%s", s.name, s.environment, s.version)
+	return fmt.Sprintf("%s (%s) %s", s.name, s.environment, s.version)
 }
 
 func (s *Server) GetCounter() int64 {
@@ -74,7 +78,6 @@ func (s *Server) Scalar(ctx context.Context, req *connect.Request[v1.ScalarReque
 	c := req.Msg.GetContent()
 
 	var jsonOjb map[string]interface{}
-
 	if err := unpackAnyToJSON(c.GetData(), &jsonOjb); err != nil {
 		s.logger.Error(err, "can't unmarshal from Content.data Any")
 		return nil, connect.NewError(connect.CodeInvalidArgument, err)
@@ -89,6 +92,14 @@ func (s *Server) Scalar(ctx context.Context, req *connect.Request[v1.ScalarReque
 		MessagesProcessed: s.GetCounter(),
 		ProcessingDetails: success,
 	})
+
+	items, err := s.db.ListAuthors(ctx)
+	if err != nil {
+		s.logger.Error(err, "failed to list authors")
+		return nil, connect.NewError(connect.CodeInvalidArgument, err)
+	}
+	s.logger.V(4).Info("list result", "authers", items)
+
 	return res, nil
 }
 
@@ -113,6 +124,20 @@ func (s *Server) Stream(ctx context.Context, strm *connect.BidiStream[v1.StreamR
 		}); err != nil {
 			s.logger.Error(err, "failed to send")
 			return connect.NewError(connect.CodeUnavailable, err)
+		}
+
+		var jsonOjb map[string]string
+		if err := unpackAnyToJSON(c.GetData(), &jsonOjb); err != nil {
+			s.logger.Error(err, "can't unmarshal from Content.data Any")
+			return connect.NewError(connect.CodeInvalidArgument, err)
+		}
+
+		_, err = s.db.CreateAuthor(ctx, sql.CreateAuthorParams{
+			Name: jsonOjb["name"],
+			Bio:  pgtype.Text{String: jsonOjb["bio"], Valid: true},
+		})
+		if err != nil {
+			s.logger.Error(err, "unable to create author to db")
 		}
 	}
 }
