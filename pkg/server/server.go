@@ -108,6 +108,10 @@ func (s *Server) Stream(ctx context.Context, strm *connect.BidiStream[v1.StreamR
 	for {
 		in, err := strm.Receive()
 		if err != nil {
+			if errors.Is(err, io.EOF) {
+				s.logger.Info("disconnected")
+				return nil
+			}
 			s.logger.Error(err, "failed to receive")
 			return connect.NewError(connect.CodeDataLoss, err)
 		}
