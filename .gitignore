@@ -70,3 +70,5 @@ terraform/.terraform.lock.hcl
 # vim tmp files
 *.swp
 *.swo
+
+bin/
