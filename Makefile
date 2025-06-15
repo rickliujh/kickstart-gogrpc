@@ -15,6 +15,7 @@ init: ## Init tools that used in the project
 	go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@v4.18.1
 	go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
 	go install github.com/spf13/cobra-cli@latest
+	GOBIN=/usr/local/bin go install github.com/bufbuild/buf/cmd/buf@v1.54.0
 .PHONY: version
 version: ## Prints the current version
 	@echo $(VERSION)
@@ -83,14 +84,17 @@ clean: ## Cleans bin and temp directories
 .PHONY: pblint
 pblint: ## Lint and format protobuf files
 	@echo "Formating protobuf files..."
-	@docker run --rm --volume "$(PWD):/workspace" --workdir /workspace bufbuild/buf format
+#	@docker run --rm --volume "$(PWD):/workspace" --workdir /workspace bufbuild/buf format
+	buf format
 	@echo "Linting protobuf files..."
-	@docker run --rm --volume "$(PWD):/workspace" --workdir /workspace bufbuild/buf lint
+#	@docker run --rm --volume "$(PWD):/workspace" --workdir /workspace bufbuild/buf lint
+	buf lint
 	@echo "Finished"
 
 .PHONY: pbgen
 pbgen: ## Generate protobuf
-	docker run --rm --volume "$(PWD):/workspace" --workdir /workspace bufbuild/buf generate
+#       docker run --rm --volume "$(PWD):/workspace" --workdir /workspace bufbuild/buf generate
+	buf generate
 
 .PHONY: dbgen
 dbgen: ## Compile sql to type-safe code
