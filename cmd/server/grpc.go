@@ -1,8 +1,7 @@
-package main
+package server
 
 import (
 	"context"
-	"flag"
 	"net/http"
 
 	"github.com/jackc/pgx/v5"
@@ -15,28 +14,18 @@ import (
 )
 
 var (
-	address     string
-	name        = "server"
-	environment = "development"
-	dburi       = "postgres://username:password@localhost:5432/database_name"
-
 	// set at build time
 	version = "v0.0.1-default"
 )
 
-func main() {
-	flag.StringVar(&address, "address", ":8080", "Server address (host:port)")
-	flag.StringVar(&name, "name", name, "Server name (default: server)")
-	flag.StringVar(&environment, "environment", environment, "Server environment (default: development)")
-	flag.StringVar(&dburi, "dburi", dburi, "Server pgxdb uri(default: localhost)")
-	flag.Parse()
+func StartGRPC(addr, name, env, dbConnStr string) {
 
 	logger := utils.NewLogger(0)
 
 	// create server
 	logger.Info("creating server...")
 	ctx := context.Background()
-	conn, err := pgx.Connect(ctx, dburi)
+	conn, err := pgx.Connect(ctx, dbConnStr)
 	if err != nil {
 		logger.Error(err, "unable to connect to db")
 		return
@@ -44,7 +33,7 @@ func main() {
 	defer conn.Close(ctx)
 	queries := sql.New(conn)
 
-	s, err := server.NewServer(name, version, environment, queries)
+	s, err := server.NewServer(name, version, env, queries)
 	if err != nil {
 		logger.Error(err, "error while creating server")
 		return
@@ -57,7 +46,7 @@ func main() {
 	// run server
 	logger.Info("starting server...", "server_name", s.String())
 	if err := http.ListenAndServe(
-		address,
+		addr,
 		h2c.NewHandler(mux, &http2.Server{}),
 	); err != nil {
 		logger.Error(err, "error while running server")

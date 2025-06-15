@@ -14,6 +14,7 @@ all: help
 init: ## Init tools that used in the project
 	go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@v4.18.1
 	go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
+	go install github.com/spf13/cobra-cli@latest
 .PHONY: version
 version: ## Prints the current version
 	@echo $(VERSION)
@@ -102,7 +103,7 @@ mgrt: ## Migrate schema, needs env [DB_URI="db connect uri"] [MGRT_DIRECTION=up|
 .PHONY: build
 build: ## Compile binary by disable CGO and omits DWARF symbol table and debug info
 	@echo Buidling binary to $(PROJ_BIN_PATH)
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -ldflags="-w -s" -o $(PROJ_BIN_PATH) ./cmd/...
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -ldflags="-w -s" -o $(PROJ_BIN_PATH) ./...
 
 .PHONY: help
 help: ## Display available commands
