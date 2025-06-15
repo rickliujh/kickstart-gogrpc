@@ -3,13 +3,13 @@ managed:
   enabled: true
   override:
     - file_option: go_package_prefix
-      value: github.com/rickliujh/kickstart-gogrpc/pkg
+      value: github.com/rickliujh/kickstart-gogrpc/pkg/grpc
 plugins:
   - remote: buf.build/protocolbuffers/go
-    out: pkg
+    out: pkg/grpc
     opt: paths=source_relative
   - remote: buf.build/connectrpc/go
-    out: pkg
+    out: pkg/grpc
     opt: paths=source_relative
 inputs:
   - directory: .

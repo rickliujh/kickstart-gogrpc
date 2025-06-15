@@ -10,7 +10,7 @@ import (
 	"connectrpc.com/connect"
 	"github.com/go-logr/logr"
 	"github.com/jackc/pgx/v5/pgtype"
-	v1 "github.com/rickliujh/kickstart-gogrpc/pkg/api/v1"
+	v1 "github.com/rickliujh/kickstart-gogrpc/pkg/grpc/api/v1"
 	"github.com/rickliujh/kickstart-gogrpc/pkg/sql"
 	"github.com/rickliujh/kickstart-gogrpc/pkg/utils"
 	"google.golang.org/protobuf/types/known/anypb"

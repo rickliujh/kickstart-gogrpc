@@ -478,9 +478,9 @@ const file_api_v1_sample_proto_rawDesc = "" +
 	"\x11RESULT_TYPE_ERROR\x10\x022\x7f\n" +
 	"\aService\x127\n" +
 	"\x06Scalar\x12\x15.api.v1.ScalarRequest\x1a\x16.api.v1.ScalarResponse\x12;\n" +
-	"\x06Stream\x12\x15.api.v1.StreamRequest\x1a\x16.api.v1.StreamResponse(\x010\x01B\x8a\x01\n" +
+	"\x06Stream\x12\x15.api.v1.StreamRequest\x1a\x16.api.v1.StreamResponse(\x010\x01B\x8f\x01\n" +
 	"\n" +
-	"com.api.v1B\vSampleProtoP\x01Z6github.com/rickliujh/kickstart-gogrpc/pkg/api/v1;apiv1\xa2\x02\x03AXX\xaa\x02\x06Api.V1\xca\x02\x06Api\\V1\xe2\x02\x12Api\\V1\\GPBMetadata\xea\x02\aApi::V1b\x06proto3"
+	"com.api.v1B\vSampleProtoP\x01Z;github.com/rickliujh/kickstart-gogrpc/pkg/grpc/api/v1;apiv1\xa2\x02\x03AXX\xaa\x02\x06Api.V1\xca\x02\x06Api\\V1\xe2\x02\x12Api\\V1\\GPBMetadata\xea\x02\aApi::V1b\x06proto3"
 
 var (
 	file_api_v1_sample_proto_rawDescOnce sync.Once

@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/jackc/pgx/v5"
-	"github.com/rickliujh/kickstart-gogrpc/pkg/api/v1/apiv1connect"
+	"github.com/rickliujh/kickstart-gogrpc/pkg/grpc/api/v1/apiv1connect"
 	"github.com/rickliujh/kickstart-gogrpc/pkg/server"
 	"github.com/rickliujh/kickstart-gogrpc/pkg/sql"
 	"github.com/rickliujh/kickstart-gogrpc/pkg/utils"
