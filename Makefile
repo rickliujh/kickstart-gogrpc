@@ -49,9 +49,13 @@ lint-yaml: ## Runs yamllint on all yaml files (brew install yamllint)
 vulncheck: ## Checks for soource vulnerabilities
 	govulncheck -test ./...
 
-.PHONY: server
-server: ## Runs uncpiled version of the server, needs env [DB_URI]
-	go run cmd/server/main.go -dburi $(DB_URI)
+.PHONY: grpc-server
+grpc-server: ## Runs uncpiled version of the server, needs env [DB_URI]
+	go run main.go server grpc -a localhost:8080 -e dev -n "grpc-server" -c $(DB_URI)
+
+.PHONY: http-server
+http-server: ## Runs uncpiled version of the server, needs env [DB_URI]
+	go run main.go server http -a localhost:8080 -e dev -n "http-server" -c $(DB_URI)
 
 .PHONY: image
 image: ## Builds the server images
