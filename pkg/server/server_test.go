@@ -1,14 +1,15 @@
 package server
+
 import (
 	"context"
 	"encoding/json"
-	"sync/atomic"
 	"testing"
 	"time"
 
 	"connectrpc.com/connect"
 	"github.com/google/uuid"
-	pb "github.com/rickliujh/kickstart-gogrpc/pkg/api/v1"
+	pb "github.com/rickliujh/kickstart-gogrpc/pkg/grpc/api/v1"
+	"github.com/rickliujh/kickstart-gogrpc/pkg/service"
 	"github.com/stretchr/testify/assert"
 	anypb "google.golang.org/protobuf/types/known/anypb"
 	tspb "google.golang.org/protobuf/types/known/timestamppb"
@@ -23,22 +24,22 @@ func TestScalar(t *testing.T) {
 	defer cancel()
 
 	s := Server{
-		counter:     atomic.Uint64{},
+		counter:     service.Counter{},
 		name:        "test-server",
 		version:     "v0.0.1",
 		environment: "test",
 	}
 
 	t.Run("scalar sans args", func(t *testing.T) {
-		_, err := NewServer("", "", "")
+		_, err := NewServer("", "", "", nil)
 		assert.Error(t, err)
-		_, err = NewServer("test", "", "")
+		_, err = NewServer("test", "", "", nil)
 		assert.Error(t, err)
-		_, err = NewServer("test", "test", "")
+		_, err = NewServer("test", "test", "", nil)
 		assert.Error(t, err)
-		_, err = NewServer("test", "", "test")
+		_, err = NewServer("test", "", "test", nil)
 		assert.Error(t, err)
-		_, err = NewServer("", "", "test")
+		_, err = NewServer("", "", "test", nil)
 		assert.Error(t, err)
 	})
 

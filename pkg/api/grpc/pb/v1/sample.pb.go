@@ -2,9 +2,9 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: api/v1/sample.proto
+// source: pb/v1/sample.proto
 
-package apiv1
+package pbv1
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -57,11 +57,11 @@ func (x ScalarResponse_ResultType) String() string {
 }
 
 func (ScalarResponse_ResultType) Descriptor() protoreflect.EnumDescriptor {
-	return file_api_v1_sample_proto_enumTypes[0].Descriptor()
+	return file_pb_v1_sample_proto_enumTypes[0].Descriptor()
 }
 
 func (ScalarResponse_ResultType) Type() protoreflect.EnumType {
-	return &file_api_v1_sample_proto_enumTypes[0]
+	return &file_pb_v1_sample_proto_enumTypes[0]
 }
 
 func (x ScalarResponse_ResultType) Number() protoreflect.EnumNumber {
@@ -70,7 +70,7 @@ func (x ScalarResponse_ResultType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ScalarResponse_ResultType.Descriptor instead.
 func (ScalarResponse_ResultType) EnumDescriptor() ([]byte, []int) {
-	return file_api_v1_sample_proto_rawDescGZIP(), []int{2, 0}
+	return file_pb_v1_sample_proto_rawDescGZIP(), []int{2, 0}
 }
 
 type StreamResponse_ResultType int32
@@ -106,11 +106,11 @@ func (x StreamResponse_ResultType) String() string {
 }
 
 func (StreamResponse_ResultType) Descriptor() protoreflect.EnumDescriptor {
-	return file_api_v1_sample_proto_enumTypes[1].Descriptor()
+	return file_pb_v1_sample_proto_enumTypes[1].Descriptor()
 }
 
 func (StreamResponse_ResultType) Type() protoreflect.EnumType {
-	return &file_api_v1_sample_proto_enumTypes[1]
+	return &file_pb_v1_sample_proto_enumTypes[1]
 }
 
 func (x StreamResponse_ResultType) Number() protoreflect.EnumNumber {
@@ -119,7 +119,7 @@ func (x StreamResponse_ResultType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use StreamResponse_ResultType.Descriptor instead.
 func (StreamResponse_ResultType) EnumDescriptor() ([]byte, []int) {
-	return file_api_v1_sample_proto_rawDescGZIP(), []int{4, 0}
+	return file_pb_v1_sample_proto_rawDescGZIP(), []int{4, 0}
 }
 
 // Content represents the message content with metadata.
@@ -137,7 +137,7 @@ type Content struct {
 
 func (x *Content) Reset() {
 	*x = Content{}
-	mi := &file_api_v1_sample_proto_msgTypes[0]
+	mi := &file_pb_v1_sample_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -149,7 +149,7 @@ func (x *Content) String() string {
 func (*Content) ProtoMessage() {}
 
 func (x *Content) ProtoReflect() protoreflect.Message {
-	mi := &file_api_v1_sample_proto_msgTypes[0]
+	mi := &file_pb_v1_sample_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -162,7 +162,7 @@ func (x *Content) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Content.ProtoReflect.Descriptor instead.
 func (*Content) Descriptor() ([]byte, []int) {
-	return file_api_v1_sample_proto_rawDescGZIP(), []int{0}
+	return file_pb_v1_sample_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Content) GetId() string {
@@ -200,7 +200,7 @@ type ScalarRequest struct {
 
 func (x *ScalarRequest) Reset() {
 	*x = ScalarRequest{}
-	mi := &file_api_v1_sample_proto_msgTypes[1]
+	mi := &file_pb_v1_sample_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -212,7 +212,7 @@ func (x *ScalarRequest) String() string {
 func (*ScalarRequest) ProtoMessage() {}
 
 func (x *ScalarRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_v1_sample_proto_msgTypes[1]
+	mi := &file_pb_v1_sample_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -225,7 +225,7 @@ func (x *ScalarRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ScalarRequest.ProtoReflect.Descriptor instead.
 func (*ScalarRequest) Descriptor() ([]byte, []int) {
-	return file_api_v1_sample_proto_rawDescGZIP(), []int{1}
+	return file_pb_v1_sample_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *ScalarRequest) GetContent() *Content {
@@ -260,7 +260,7 @@ type ScalarResponse struct {
 
 func (x *ScalarResponse) Reset() {
 	*x = ScalarResponse{}
-	mi := &file_api_v1_sample_proto_msgTypes[2]
+	mi := &file_pb_v1_sample_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -272,7 +272,7 @@ func (x *ScalarResponse) String() string {
 func (*ScalarResponse) ProtoMessage() {}
 
 func (x *ScalarResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_v1_sample_proto_msgTypes[2]
+	mi := &file_pb_v1_sample_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -285,7 +285,7 @@ func (x *ScalarResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ScalarResponse.ProtoReflect.Descriptor instead.
 func (*ScalarResponse) Descriptor() ([]byte, []int) {
-	return file_api_v1_sample_proto_rawDescGZIP(), []int{2}
+	return file_pb_v1_sample_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *ScalarResponse) GetRequestId() string {
@@ -326,7 +326,7 @@ type StreamRequest struct {
 
 func (x *StreamRequest) Reset() {
 	*x = StreamRequest{}
-	mi := &file_api_v1_sample_proto_msgTypes[3]
+	mi := &file_pb_v1_sample_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -338,7 +338,7 @@ func (x *StreamRequest) String() string {
 func (*StreamRequest) ProtoMessage() {}
 
 func (x *StreamRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_v1_sample_proto_msgTypes[3]
+	mi := &file_pb_v1_sample_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -351,7 +351,7 @@ func (x *StreamRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StreamRequest.ProtoReflect.Descriptor instead.
 func (*StreamRequest) Descriptor() ([]byte, []int) {
-	return file_api_v1_sample_proto_rawDescGZIP(), []int{3}
+	return file_pb_v1_sample_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *StreamRequest) GetContent() *Content {
@@ -380,7 +380,7 @@ type StreamResponse struct {
 
 func (x *StreamResponse) Reset() {
 	*x = StreamResponse{}
-	mi := &file_api_v1_sample_proto_msgTypes[4]
+	mi := &file_pb_v1_sample_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -392,7 +392,7 @@ func (x *StreamResponse) String() string {
 func (*StreamResponse) ProtoMessage() {}
 
 func (x *StreamResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_v1_sample_proto_msgTypes[4]
+	mi := &file_pb_v1_sample_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -405,7 +405,7 @@ func (x *StreamResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StreamResponse.ProtoReflect.Descriptor instead.
 func (*StreamResponse) Descriptor() ([]byte, []int) {
-	return file_api_v1_sample_proto_rawDescGZIP(), []int{4}
+	return file_pb_v1_sample_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *StreamResponse) GetRequestId() string {
@@ -436,20 +436,20 @@ func (x *StreamResponse) GetProcessingDetails() string {
 	return ""
 }
 
-var File_api_v1_sample_proto protoreflect.FileDescriptor
+var File_pb_v1_sample_proto protoreflect.FileDescriptor
 
-const file_api_v1_sample_proto_rawDesc = "" +
+const file_pb_v1_sample_proto_rawDesc = "" +
 	"\n" +
-	"\x13api/v1/sample.proto\x12\x06api.v1\x1a\x19google/protobuf/any.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xbb\x01\n" +
+	"\x12pb/v1/sample.proto\x12\x05pb.v1\x1a\x19google/protobuf/any.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xba\x01\n" +
 	"\aContent\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12(\n" +
-	"\x04data\x18\x02 \x01(\v2\x14.google.protobuf.AnyR\x04data\x129\n" +
-	"\bmetadata\x18\x03 \x03(\v2\x1d.api.v1.Content.MetadataEntryR\bmetadata\x1a;\n" +
+	"\x04data\x18\x02 \x01(\v2\x14.google.protobuf.AnyR\x04data\x128\n" +
+	"\bmetadata\x18\x03 \x03(\v2\x1c.pb.v1.Content.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"j\n" +
-	"\rScalarRequest\x12)\n" +
-	"\acontent\x18\x01 \x01(\v2\x0f.api.v1.ContentR\acontent\x12.\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"i\n" +
+	"\rScalarRequest\x12(\n" +
+	"\acontent\x18\x01 \x01(\v2\x0e.pb.v1.ContentR\acontent\x12.\n" +
 	"\x04sent\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x04sent\"\x8d\x02\n" +
 	"\x0eScalarResponse\x12\x1d\n" +
 	"\n" +
@@ -461,9 +461,9 @@ const file_api_v1_sample_proto_rawDesc = "" +
 	"ResultType\x12\x1b\n" +
 	"\x17RESULT_TYPE_UNSPECIFIED\x10\x00\x12\x17\n" +
 	"\x13RESULT_TYPE_SUCCESS\x10\x01\x12\x15\n" +
-	"\x11RESULT_TYPE_ERROR\x10\x02\"j\n" +
-	"\rStreamRequest\x12)\n" +
-	"\acontent\x18\x01 \x01(\v2\x0f.api.v1.ContentR\acontent\x12.\n" +
+	"\x11RESULT_TYPE_ERROR\x10\x02\"i\n" +
+	"\rStreamRequest\x12(\n" +
+	"\acontent\x18\x01 \x01(\v2\x0e.pb.v1.ContentR\acontent\x12.\n" +
 	"\x04sent\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x04sent\"\x8d\x02\n" +
 	"\x0eStreamResponse\x12\x1d\n" +
 	"\n" +
@@ -475,50 +475,49 @@ const file_api_v1_sample_proto_rawDesc = "" +
 	"ResultType\x12\x1b\n" +
 	"\x17RESULT_TYPE_UNSPECIFIED\x10\x00\x12\x17\n" +
 	"\x13RESULT_TYPE_SUCCESS\x10\x01\x12\x15\n" +
-	"\x11RESULT_TYPE_ERROR\x10\x022\x7f\n" +
-	"\aService\x127\n" +
-	"\x06Scalar\x12\x15.api.v1.ScalarRequest\x1a\x16.api.v1.ScalarResponse\x12;\n" +
-	"\x06Stream\x12\x15.api.v1.StreamRequest\x1a\x16.api.v1.StreamResponse(\x010\x01B\x8f\x01\n" +
-	"\n" +
-	"com.api.v1B\vSampleProtoP\x01Z;github.com/rickliujh/kickstart-gogrpc/pkg/grpc/api/v1;apiv1\xa2\x02\x03AXX\xaa\x02\x06Api.V1\xca\x02\x06Api\\V1\xe2\x02\x12Api\\V1\\GPBMetadata\xea\x02\aApi::V1b\x06proto3"
+	"\x11RESULT_TYPE_ERROR\x10\x022{\n" +
+	"\aService\x125\n" +
+	"\x06Scalar\x12\x14.pb.v1.ScalarRequest\x1a\x15.pb.v1.ScalarResponse\x129\n" +
+	"\x06Stream\x12\x14.pb.v1.StreamRequest\x1a\x15.pb.v1.StreamResponse(\x010\x01B\x8c\x01\n" +
+	"\tcom.pb.v1B\vSampleProtoP\x01Z=github.com/rickliujh/kickstart-gogrpc/pkg/api/grpc/pb/v1;pbv1\xa2\x02\x03PXX\xaa\x02\x05Pb.V1\xca\x02\x05Pb\\V1\xe2\x02\x11Pb\\V1\\GPBMetadata\xea\x02\x06Pb::V1b\x06proto3"
 
 var (
-	file_api_v1_sample_proto_rawDescOnce sync.Once
-	file_api_v1_sample_proto_rawDescData []byte
+	file_pb_v1_sample_proto_rawDescOnce sync.Once
+	file_pb_v1_sample_proto_rawDescData []byte
 )
 
-func file_api_v1_sample_proto_rawDescGZIP() []byte {
-	file_api_v1_sample_proto_rawDescOnce.Do(func() {
-		file_api_v1_sample_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_v1_sample_proto_rawDesc), len(file_api_v1_sample_proto_rawDesc)))
+func file_pb_v1_sample_proto_rawDescGZIP() []byte {
+	file_pb_v1_sample_proto_rawDescOnce.Do(func() {
+		file_pb_v1_sample_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_pb_v1_sample_proto_rawDesc), len(file_pb_v1_sample_proto_rawDesc)))
 	})
-	return file_api_v1_sample_proto_rawDescData
+	return file_pb_v1_sample_proto_rawDescData
 }
 
-var file_api_v1_sample_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_api_v1_sample_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
-var file_api_v1_sample_proto_goTypes = []any{
-	(ScalarResponse_ResultType)(0), // 0: api.v1.ScalarResponse.ResultType
-	(StreamResponse_ResultType)(0), // 1: api.v1.StreamResponse.ResultType
-	(*Content)(nil),                // 2: api.v1.Content
-	(*ScalarRequest)(nil),          // 3: api.v1.ScalarRequest
-	(*ScalarResponse)(nil),         // 4: api.v1.ScalarResponse
-	(*StreamRequest)(nil),          // 5: api.v1.StreamRequest
-	(*StreamResponse)(nil),         // 6: api.v1.StreamResponse
-	nil,                            // 7: api.v1.Content.MetadataEntry
+var file_pb_v1_sample_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_pb_v1_sample_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_pb_v1_sample_proto_goTypes = []any{
+	(ScalarResponse_ResultType)(0), // 0: pb.v1.ScalarResponse.ResultType
+	(StreamResponse_ResultType)(0), // 1: pb.v1.StreamResponse.ResultType
+	(*Content)(nil),                // 2: pb.v1.Content
+	(*ScalarRequest)(nil),          // 3: pb.v1.ScalarRequest
+	(*ScalarResponse)(nil),         // 4: pb.v1.ScalarResponse
+	(*StreamRequest)(nil),          // 5: pb.v1.StreamRequest
+	(*StreamResponse)(nil),         // 6: pb.v1.StreamResponse
+	nil,                            // 7: pb.v1.Content.MetadataEntry
 	(*anypb.Any)(nil),              // 8: google.protobuf.Any
 	(*timestamppb.Timestamp)(nil),  // 9: google.protobuf.Timestamp
 }
-var file_api_v1_sample_proto_depIdxs = []int32{
-	8, // 0: api.v1.Content.data:type_name -> google.protobuf.Any
-	7, // 1: api.v1.Content.metadata:type_name -> api.v1.Content.MetadataEntry
-	2, // 2: api.v1.ScalarRequest.content:type_name -> api.v1.Content
-	9, // 3: api.v1.ScalarRequest.sent:type_name -> google.protobuf.Timestamp
-	2, // 4: api.v1.StreamRequest.content:type_name -> api.v1.Content
-	9, // 5: api.v1.StreamRequest.sent:type_name -> google.protobuf.Timestamp
-	3, // 6: api.v1.Service.Scalar:input_type -> api.v1.ScalarRequest
-	5, // 7: api.v1.Service.Stream:input_type -> api.v1.StreamRequest
-	4, // 8: api.v1.Service.Scalar:output_type -> api.v1.ScalarResponse
-	6, // 9: api.v1.Service.Stream:output_type -> api.v1.StreamResponse
+var file_pb_v1_sample_proto_depIdxs = []int32{
+	8, // 0: pb.v1.Content.data:type_name -> google.protobuf.Any
+	7, // 1: pb.v1.Content.metadata:type_name -> pb.v1.Content.MetadataEntry
+	2, // 2: pb.v1.ScalarRequest.content:type_name -> pb.v1.Content
+	9, // 3: pb.v1.ScalarRequest.sent:type_name -> google.protobuf.Timestamp
+	2, // 4: pb.v1.StreamRequest.content:type_name -> pb.v1.Content
+	9, // 5: pb.v1.StreamRequest.sent:type_name -> google.protobuf.Timestamp
+	3, // 6: pb.v1.Service.Scalar:input_type -> pb.v1.ScalarRequest
+	5, // 7: pb.v1.Service.Stream:input_type -> pb.v1.StreamRequest
+	4, // 8: pb.v1.Service.Scalar:output_type -> pb.v1.ScalarResponse
+	6, // 9: pb.v1.Service.Stream:output_type -> pb.v1.StreamResponse
 	8, // [8:10] is the sub-list for method output_type
 	6, // [6:8] is the sub-list for method input_type
 	6, // [6:6] is the sub-list for extension type_name
@@ -526,27 +525,27 @@ var file_api_v1_sample_proto_depIdxs = []int32{
 	0, // [0:6] is the sub-list for field type_name
 }
 
-func init() { file_api_v1_sample_proto_init() }
-func file_api_v1_sample_proto_init() {
-	if File_api_v1_sample_proto != nil {
+func init() { file_pb_v1_sample_proto_init() }
+func file_pb_v1_sample_proto_init() {
+	if File_pb_v1_sample_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_v1_sample_proto_rawDesc), len(file_api_v1_sample_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_pb_v1_sample_proto_rawDesc), len(file_pb_v1_sample_proto_rawDesc)),
 			NumEnums:      2,
 			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_api_v1_sample_proto_goTypes,
-		DependencyIndexes: file_api_v1_sample_proto_depIdxs,
-		EnumInfos:         file_api_v1_sample_proto_enumTypes,
-		MessageInfos:      file_api_v1_sample_proto_msgTypes,
+		GoTypes:           file_pb_v1_sample_proto_goTypes,
+		DependencyIndexes: file_pb_v1_sample_proto_depIdxs,
+		EnumInfos:         file_pb_v1_sample_proto_enumTypes,
+		MessageInfos:      file_pb_v1_sample_proto_msgTypes,
 	}.Build()
-	File_api_v1_sample_proto = out.File
-	file_api_v1_sample_proto_goTypes = nil
-	file_api_v1_sample_proto_depIdxs = nil
+	File_pb_v1_sample_proto = out.File
+	file_pb_v1_sample_proto_goTypes = nil
+	file_pb_v1_sample_proto_depIdxs = nil
 }

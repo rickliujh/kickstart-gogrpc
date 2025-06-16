@@ -5,12 +5,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"sync/atomic"
 
 	"connectrpc.com/connect"
 	"github.com/go-logr/logr"
 	"github.com/jackc/pgx/v5/pgtype"
-	v1 "github.com/rickliujh/kickstart-gogrpc/pkg/grpc/api/v1"
+	v1 "github.com/rickliujh/kickstart-gogrpc/pkg/api/grpc/pb/v1"
+	"github.com/rickliujh/kickstart-gogrpc/pkg/service"
 	"github.com/rickliujh/kickstart-gogrpc/pkg/sql"
 	"github.com/rickliujh/kickstart-gogrpc/pkg/utils"
 	"google.golang.org/protobuf/types/known/anypb"
@@ -35,7 +35,7 @@ func NewServer(name, version, environment string, db *sql.Queries) (*Server, err
 	}
 
 	return &Server{
-		counter:     atomic.Uint64{},
+		counter:     service.Counter{},
 		logger:      utils.NewLogger(4),
 		db:          db,
 		name:        name,
@@ -46,7 +46,7 @@ func NewServer(name, version, environment string, db *sql.Queries) (*Server, err
 
 // Server is used to implement your Service.
 type Server struct {
-	counter     atomic.Uint64 // counter for messages
+	counter     service.Counter
 	logger      *logr.Logger
 	db          *sql.Queries
 	name        string // server name
@@ -56,10 +56,6 @@ type Server struct {
 
 func (s *Server) String() string {
 	return fmt.Sprintf("%s (%s) %s", s.name, s.environment, s.version)
-}
-
-func (s *Server) GetCounter() int64 {
-	return int64(s.counter.Load())
 }
 
 func (s *Server) GetName() string {
@@ -89,8 +85,8 @@ func (s *Server) Scalar(ctx context.Context, req *connect.Request[v1.ScalarReque
 	s.counter.Add(1)
 	res := connect.NewResponse(&v1.ScalarResponse{
 		RequestId:         c.GetId(),
-		MessageCount:      s.GetCounter(),
-		MessagesProcessed: s.GetCounter(),
+		MessageCount:      s.counter.Count(),
+		MessagesProcessed: s.counter.Count(),
 		ProcessingDetails: success,
 	})
 
@@ -123,8 +119,8 @@ func (s *Server) Stream(ctx context.Context, strm *connect.BidiStream[v1.StreamR
 		s.counter.Add(1)
 		if err := strm.Send(&v1.StreamResponse{
 			RequestId:         in.Content.GetId(),
-			MessageCount:      s.GetCounter(),
-			MessagesProcessed: s.GetCounter(),
+			MessageCount:      s.counter.Count(),
+			MessagesProcessed: s.counter.Count(),
 			ProcessingDetails: success,
 		}); err != nil {
 			s.logger.Error(err, "failed to send")

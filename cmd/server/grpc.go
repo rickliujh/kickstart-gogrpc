@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/jackc/pgx/v5"
-	"github.com/rickliujh/kickstart-gogrpc/pkg/grpc/api/v1/apiv1connect"
+	"github.com/rickliujh/kickstart-gogrpc/pkg/api/grpc/pb/v1/pbv1connect"
 	"github.com/rickliujh/kickstart-gogrpc/pkg/server"
 	"github.com/rickliujh/kickstart-gogrpc/pkg/sql"
 	"github.com/rickliujh/kickstart-gogrpc/pkg/utils"
@@ -40,7 +40,7 @@ func StartGRPC(addr, name, env, dbConnStr string) {
 	}
 
 	mux := http.NewServeMux()
-	path, handler := apiv1connect.NewServiceHandler(s)
+	path, handler := pbv1connect.NewServiceHandler(s)
 	mux.Handle(path, handler)
 
 	// run server

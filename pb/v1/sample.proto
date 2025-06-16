@@ -1,11 +1,11 @@
 syntax = "proto3";
 
-package api.v1;
+package pb.v1;
 
 import "google/protobuf/any.proto";
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/rickliujh/kickstart-gogrpc/pkg/api/v1";
+option go_package = "github.com/rickliujh/kickstart-gogrpc/pkg/api/grpc/api/v1";
 
 // Service provides APIs for client applications to interact with the server.
 // It includes methods for basic functionality and streaming data.
