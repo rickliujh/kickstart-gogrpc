@@ -4,7 +4,7 @@ Copyright © 2025 Rick Ryan
 package cmd
 
 import (
-	server "github.com/rickliujh/kickstart-gogrpc/cmd/server"
+	server "github.com/rickliujh/kickstart-gogrpc/pkg/server"
 	"github.com/spf13/cobra"
 )
 

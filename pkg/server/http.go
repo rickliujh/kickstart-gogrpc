@@ -9,11 +9,6 @@ import (
 	v1 "github.com/rickliujh/kickstart-gogrpc/pkg/api/http/v1"
 )
 
-var (
-	// set at build time
-	version = "v0.0.1-default"
-)
-
 func HTTPServer(addr, name, env, dbConnStr string) {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)

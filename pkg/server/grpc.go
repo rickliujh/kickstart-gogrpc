@@ -5,17 +5,12 @@ import (
 	"net/http"
 
 	"github.com/jackc/pgx/v5"
+	grpcimpl "github.com/rickliujh/kickstart-gogrpc/pkg/api/grpc/impl"
 	"github.com/rickliujh/kickstart-gogrpc/pkg/api/grpc/pb/v1/pbv1connect"
-	"github.com/rickliujh/kickstart-gogrpc/pkg/server"
 	"github.com/rickliujh/kickstart-gogrpc/pkg/sql"
 	"github.com/rickliujh/kickstart-gogrpc/pkg/utils"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
-)
-
-var (
-	// set at build time
-	version = "v0.0.1-default"
 )
 
 func StartGRPC(addr, name, env, dbConnStr string) {
@@ -33,7 +28,7 @@ func StartGRPC(addr, name, env, dbConnStr string) {
 	defer conn.Close(ctx)
 	queries := sql.New(conn)
 
-	s, err := server.NewServer(name, version, env, queries)
+	s, err := grpcimpl.NewServer(name, version, env, queries)
 	if err != nil {
 		logger.Error(err, "error while creating server")
 		return
