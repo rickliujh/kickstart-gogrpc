@@ -9,12 +9,13 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/httplog/v3"
 	v1 "github.com/rickliujh/kickstart-gogrpc/pkg/api/http/v1"
+	"github.com/rickliujh/kickstart-gogrpc/pkg/utils"
 )
 
 func HTTPServer(addr, name, env, dbConnStr, levelStr string, isLocalhost, isDebugHeaderSet bool) {
 	r := chi.NewRouter()
 
-	level, err := ParseLevel(levelStr)
+	level, err := utils.ParseSlogLevel(levelStr)
 	if err != nil {
 		panic(err)
 	}
@@ -51,10 +52,4 @@ func HTTPServer(addr, name, env, dbConnStr, levelStr string, isLocalhost, isDebu
 	v1.Route(r)
 
 	http.ListenAndServe(addr, r)
-}
-
-func ParseLevel(s string) (slog.Level, error) {
-	var level slog.Level
-	var err = level.UnmarshalText([]byte(s))
-	return level, err
 }

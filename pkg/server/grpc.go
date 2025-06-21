@@ -2,7 +2,9 @@ package server
 
 import (
 	"context"
+	"log/slog"
 	"net/http"
+	"os"
 
 	"github.com/jackc/pgx/v5"
 	grpcimpl "github.com/rickliujh/kickstart-gogrpc/pkg/api/grpc/impl"
@@ -13,24 +15,34 @@ import (
 	"golang.org/x/net/http2/h2c"
 )
 
-func StartGRPC(addr, name, env, dbConnStr string) {
+func StartGRPC(addr, name, env, dbConnStr, levelStr string) {
+	level, err := utils.ParseSlogLevel(levelStr)
+	if err != nil {
+		panic(err)
+	}
 
-	logger := utils.NewLogger(0)
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
+		Level: level,
+	})).With(
+		slog.String("app", name),
+		slog.String("version", version),
+		slog.String("env", env),
+	)
 
 	// create server
 	logger.Info("creating server...")
 	ctx := context.Background()
 	conn, err := pgx.Connect(ctx, dbConnStr)
 	if err != nil {
-		logger.Error(err, "unable to connect to db")
+		logger.Error("unable to connect to db", slog.Any("error", err))
 		return
 	}
 	defer conn.Close(ctx)
 	queries := sql.New(conn)
 
-	s, err := grpcimpl.NewServer(name, version, env, queries)
+	s, err := grpcimpl.NewServer(name, version, env, queries, logger)
 	if err != nil {
-		logger.Error(err, "error while creating server")
+		logger.Error("error while creating server", slog.Any("error", err))
 		return
 	}
 
@@ -39,14 +51,12 @@ func StartGRPC(addr, name, env, dbConnStr string) {
 	mux.Handle(path, handler)
 
 	// run server
-	logger.Info("starting server...", "server_name", s.String())
+	logger.Info("starting server...", slog.String("server_name", s.String()))
 	if err := http.ListenAndServe(
 		addr,
 		h2c.NewHandler(mux, &http2.Server{}),
 	); err != nil {
-		logger.Error(err, "error while running server")
+		logger.Error("error while running server", slog.Any("error", err))
 		return
 	}
-
-	logger.Info("done")
 }
