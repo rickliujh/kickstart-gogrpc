@@ -52,11 +52,11 @@ vulncheck: ## Checks for soource vulnerabilities
 
 .PHONY: grpc-server
 grpc-server: ## Runs uncpiled version of the server, needs env [DB_URI]
-	go run main.go server grpc -a localhost:8080 -e dev -n "grpc-server" -c $(DB_URI)
+	go run main.go server grpc -a localhost:8080 -e dev -n "grpc-server" -l DEBUG -c $(DB_URI)
 
 .PHONY: http-server
 http-server: ## Runs uncpiled version of the server, needs env [DB_URI]
-	go run main.go server http -a localhost:8080 -e dev -n "http-server" -c $(DB_URI)
+	go run main.go server http -a localhost:8080 -e local -n "http-server" -v -l DEBUG -c $(DB_URI)
 
 .PHONY: image
 image: ## Builds the server images

@@ -6,6 +6,11 @@ package cmd
 import (
 	server "github.com/rickliujh/kickstart-gogrpc/pkg/server"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
+)
+
+var (
+	verbose bool
 )
 
 // httpCmd represents the http command
@@ -19,10 +24,15 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		server.HTTPServer(addr, serName, env, dbConnStr)
+		isLocalhost := env == "local"
+		server.HTTPServer(addr, serName, env, dbConnStr, level, isLocalhost, verbose)
 	},
 }
 
 func init() {
 	serverCmd.AddCommand(httpCmd)
+
+	httpCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "enable verbose log output")
+
+	viper.BindPFlag("server.http.log.verbose", httpCmd.Flags().Lookup("verbose"))
 }

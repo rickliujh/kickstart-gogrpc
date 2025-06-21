@@ -10,9 +10,10 @@ import (
 
 var (
 	addr      string
-	serName   = "server"
-	env       = "development"
-	dbConnStr = "postgres://username:password@localhost:5432/database_name"
+	serName   string
+	env       string
+	dbConnStr string
+	level     string
 )
 
 // serverCmd represents the server command
@@ -34,9 +35,11 @@ func init() {
 	serverCmd.PersistentFlags().StringVarP(&serName, "name", "n", "server", "Server name")
 	serverCmd.PersistentFlags().StringVarP(&env, "env", "e", "dev", "Server environment")
 	serverCmd.PersistentFlags().StringVarP(&dbConnStr, "db-connstr", "c", "postgres://username:password@localhost:5432/database_name", "Connection string for database")
+	serverCmd.PersistentFlags().StringVarP(&level, "level", "l", "INFO", "log level of the server")
 
 	viper.BindPFlag("server.address", serverCmd.Flags().Lookup("address"))
 	viper.BindPFlag("server.name", serverCmd.Flags().Lookup("name"))
 	viper.BindPFlag("server.env", serverCmd.Flags().Lookup("env"))
 	viper.BindPFlag("server.db-connstr", serverCmd.Flags().Lookup("db-connstr"))
+	viper.BindPFlag("server.level", serverCmd.Flags().Lookup("level"))
 }

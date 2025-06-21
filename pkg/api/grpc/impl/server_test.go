@@ -8,7 +8,7 @@ import (
 
 	"connectrpc.com/connect"
 	"github.com/google/uuid"
-	pb "github.com/rickliujh/kickstart-gogrpc/pkg/grpc/api/v1"
+	pb "github.com/rickliujh/kickstart-gogrpc/pkg/api/grpc/pb/v1"
 	"github.com/rickliujh/kickstart-gogrpc/pkg/service"
 	"github.com/stretchr/testify/assert"
 	anypb "google.golang.org/protobuf/types/known/anypb"
