@@ -58,21 +58,23 @@ func init() {
 
 // initConfig reads in config file and ENV variables if set.
 func initConfig() {
+	// Lookup order
+	// specified file -> current -> home
 	if cfgFile != "" {
 		// Use config file from the flag.
 		viper.SetConfigFile(cfgFile)
 	} else {
-		// Find home directory.
-		home, err := os.UserHomeDir()
-		cobra.CheckErr(err)
-
 		// Find current directory.
 		curr, err := os.Getwd()
 		cobra.CheckErr(err)
+		viper.AddConfigPath(curr)
 
+		// Find home directory.
+		home, err := os.UserHomeDir()
+		cobra.CheckErr(err)
 		// Search config in home directory with name ".kickstart-gogrpc" (without extension).
 		viper.AddConfigPath(home)
-		viper.AddConfigPath(curr)
+
 		viper.SetConfigType(cfgFileType)
 		viper.SetConfigName(cfgFileName)
 	}

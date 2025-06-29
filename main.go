@@ -1,6 +1,5 @@
 /*
 Copyright © 2025 Rick Liu
-
 */
 package main
 
