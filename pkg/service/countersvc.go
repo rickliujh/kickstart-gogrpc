@@ -11,7 +11,7 @@ func (c *Counter) Count() int64 {
 }
 
 func (c *Counter) Increment() {
-	c.count.Add(1)
+	c.Add(1)
 }
 
 func (c *Counter) Add(delta uint64) {
