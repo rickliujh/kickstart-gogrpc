@@ -1,0 +1,62 @@
+// https://github.com/golang/vscode-go/wiki/debugging
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch HTTP Server",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/main.go",
+            "args": [
+                "server",
+                "http",
+                "-a",
+                "localhost:8080",
+                "-e",
+                "local",
+                "-n",
+                "http-server",
+                "-v",
+                "-l",
+                "DEBUG",
+                "-c",
+                "$DB_URI"
+            ]
+        },
+        {
+            "name": "Launch GRPC Server",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/main.go",
+            "args": [
+                "server",
+                "grpc",
+                "-a",
+                "localhost:8080",
+                "-e",
+                "local",
+                "-n",
+                "grpc-server",
+                "-l",
+                "DEBUG",
+                "-c",
+                "$DB_URI"
+            ]
+        },
+        {
+            "name": "Launch test function",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}",
+            "args": [
+                "-test.run",
+                "TestMyFunction"
+            ],
+            "showLog": true
+        }
+    ]
+}
+
