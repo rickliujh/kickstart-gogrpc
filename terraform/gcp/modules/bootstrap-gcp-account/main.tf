@@ -31,7 +31,7 @@ provider "google" {
 
 # Resource to create the GCS bucket for Terraform state
 resource "google_storage_bucket" "terraform_state_bucket" {
-  name          = var.bucket_name
+  name          = var.state_file_bucket_name
   location      = var.state_file_region # Or a multi-region location like "US"
   force_destroy = false                 # Set to true ONLY when you want to delete the bucket and its contents
 
@@ -68,8 +68,10 @@ resource "google_storage_bucket" "terraform_state_bucket" {
 resource "local_file" "terraform_tf" {
   filename = "${path.root}/terraform.tf"
   content = templatefile("${path.module}/templates/terraform.tf.tmpl", {
-    state_file_bucket_name = var.state_file_bucket_name
-    state_file_region      = var.state_file_region
+    state_file_bucket_name   = var.state_file_bucket_name
+    state_file_region        = var.state_file_region
+    state_file_bucket_prefix = var.state_file_bucket_prefix
+    tf_version               = local.tf_version
   })
   directory_permission = "0666"
   file_permission      = "0666"
