@@ -72,6 +72,7 @@ resource "local_file" "terraform_tf" {
     state_file_region        = var.state_file_region
     state_file_bucket_prefix = var.state_file_bucket_prefix
     tf_version               = local.tf_version
+    providers                = local.provider_config
   })
   directory_permission = "0666"
   file_permission      = "0666"
