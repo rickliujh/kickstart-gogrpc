@@ -6,7 +6,7 @@ locals {
 
   tags = coalesce(var.override_tags, {
     name    = "tf-bootstrap",
-    module  = "github.com/rickliujh/kickstart-gogrpc/terraform/modules/bootstrap-gcp-account",
+    module  = "github.com/rickliujh/tf-tmpls/gcp/modules/bootstrap-gcp-account",
     purpose = "terraform-state"
   })
 
