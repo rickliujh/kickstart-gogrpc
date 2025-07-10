@@ -5,8 +5,8 @@ locals {
   tf_version = coalesce(var.override_tf_version, "1.12.1")
 
   tags = coalesce(var.override_tags, {
-    Name    = "tf-bootstrap",
-    Module  = "github.com/rickliujh/kickstart-gogrpc/terraform/modules/bootstrap-gcp-account",
+    name    = "tf-bootstrap",
+    module  = "github.com/rickliujh/kickstart-gogrpc/terraform/modules/bootstrap-gcp-account",
     purpose = "terraform-state"
   })
 
