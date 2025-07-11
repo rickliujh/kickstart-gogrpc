@@ -1,7 +1,7 @@
 # kickstart-gogrpc
 Boilerplate of GRPC server for go
 
-## TODOs
+### TODOs
 - ~~sqlc~~
 - ~~migrate~~
 - ~~logr~~
@@ -27,12 +27,11 @@ Two type of build:
 > To change the name of the binary in the final image you need:
 > 1. change the destination of the copy path
 > ```
-> COPY --from=builder /go/src/app/bin/${APP_NAME} /app
-
+> COPY --from=builder /go/src/app/bin/${APP_NAME} /my-app
 > ```
 > 2. change the endpoint
 > ```
-> ENTRYPOINT ["/app"]
+> ENTRYPOINT ["/my-app"]
 > ```
 
 #### Specify the image that will run the binary
