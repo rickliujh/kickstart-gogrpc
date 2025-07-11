@@ -3,8 +3,8 @@
 # to not change this outside of the module.
 terraform {
   backend "gcs" {
-    bucket  = "kickstart-tf-state-alpha"
-    prefix  = "terraform/state"
+    bucket = "kickstart-tf-state-alpha"
+    prefix = "terraform/state"
   }
 
   required_version = ">= 1.12.1"

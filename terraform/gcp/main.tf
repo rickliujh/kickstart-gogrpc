@@ -1,10 +1,10 @@
 terraform {
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = "6.42.0"
-    }
-  }
+  # required_providers {
+  #   google = {
+  #     source  = "hashicorp/google"
+  #     version = "6.42.0"
+  #   }
+  # }
 }
 
 locals {
@@ -47,7 +47,7 @@ resource "google_project_service" "crun" {
 }
 
 module "bootstrap" {
-  source                 = "github.com/rickliujh/kickstart-gogrpc//terraform/gcp/modules/bootstrap-gcp-account"
+  source                 = "github.com/rickliujh/tf-tmpl//gcp/modules/bootstrap-gcp-account"
   state_file_region      = local.region
   state_file_bucket_name = "kickstart-tf-state-alpha"
   gcp_project_id         = google_project.proj.project_id

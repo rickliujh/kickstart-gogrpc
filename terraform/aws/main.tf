@@ -11,7 +11,7 @@ locals {
 }
 
 module "aws-tf-kickstart" {
-  source = "./modules/kickstart"
+  source = "github.com/rickliujh/tf-tmpl//aws/modules/bootstrap-aws-account"
 
   state_file_aws_region          = "us-east-1"
   state_file_bucket_name         = "tf-state-gogrpc"
