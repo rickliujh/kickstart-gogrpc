@@ -108,10 +108,15 @@ mgrt-prep: ## Prepare migration files, needs env [MGRT_NAME="init schema"]
 mgrt: ## Migrate schema, needs env [DB_URI="db connect uri"] [MGRT_DIRECTION=up|down]
 	migrate -database $(DB_URI) -path $(MGRT_DIR) $(MGRT_DIRECTION)
 
-.PHONY: build
-build: ## Compile binary by disable CGO and omits DWARF symbol table and debug info
+.PHONY: build-prod
+build-prod: ## Compile binary by disable CGO and omits DWARF symbol table and debug info
 	@echo Buidling binary to $(PROJ_BIN_PATH)
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -ldflags="-w -s" -o $(PROJ_BIN_PATH) ./...
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -ldflags='-w -s -extldflags "-static"' -o $(PROJ_BIN_PATH)$${APP_NAME} .
+
+.PHONY: build-dev
+build-dev: ## Compile binary by disable CGO and omits DWARF symbol table and debug info
+	@echo Buidling binary to $(PROJ_BIN_PATH)
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -ldflags='-extldflags "-static"' -o $(PROJ_BIN_PATH)$${APP_NAME} .
 
 .PHONY: help
 help: ## Display available commands
