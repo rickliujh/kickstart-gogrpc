@@ -51,5 +51,6 @@ func HTTPServer(addr, name, env, dbConnStr, levelStr string, isLocalhost, isDebu
 
 	v1.Route(r)
 
+	logger.Info(fmt.Sprintf("Starting HTTP server, listen on %s", addr))
 	http.ListenAndServe(addr, r)
 }
