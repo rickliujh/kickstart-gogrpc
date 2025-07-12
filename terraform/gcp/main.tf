@@ -78,7 +78,13 @@ resource "google_cloud_run_v2_service" "kickstart_svc" {
 
   template {
     containers {
-      image = "us-docker.pkg.dev/cloudrun/container/hello"
+      image = "us-central1-docker.pkg.dev/go-kickstart/go-kickstart/kickstart-server:v0.0.1"
+
+      ports {
+        name           = "http1"
+        container_port = 8080
+      }
+
       resources {
         limits = {
           cpu    = "1.0"
@@ -86,6 +92,37 @@ resource "google_cloud_run_v2_service" "kickstart_svc" {
         }
         startup_cpu_boost = true
         cpu_idle          = true
+      }
+
+      args = [
+        "server",
+        "http",
+        "-a",
+        ":8080",
+        "-e",
+        "dev",
+        "-n",
+        "gcp-http",
+        "-l",
+        "INFO",
+        "-c",
+        " ",
+      ]
+
+      startup_probe {
+        initial_delay_seconds = 5
+        timeout_seconds       = 1
+        period_seconds        = 30
+        failure_threshold     = 3
+        tcp_socket {
+          port = 8080
+        }
+      }
+
+      liveness_probe {
+        http_get {
+          path = "/ping"
+        }
       }
     }
   }
