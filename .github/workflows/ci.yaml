@@ -96,7 +96,7 @@ jobs:
             ```
             ${{ fromJSON(steps.coverage.outputs.report) }}```
 
-      - name: Check coverage
+      - name: Coverage guard
         if: steps.coverage.outcome == 'failure' || steps.ut.outcome == 'failure'
         shell: bash
         run: echo "Unit test or coverage check failed" && exit 1
