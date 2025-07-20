@@ -103,8 +103,8 @@ jobs:
         with:
           issue-number: ${{env.PR_NUMBER}}
           body: |
-            Test failed, report: 
-            "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            Test outcome: ${{steps.ut.outcome}}, report: 
+            ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
       - name: Coverage guard
         if: steps.coverage.outcome == 'failure' || steps.ut.outcome == 'failure'
