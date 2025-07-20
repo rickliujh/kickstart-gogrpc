@@ -47,6 +47,8 @@ jobs:
 
     permissions:
       contents: read
+      actions: read
+      checks: write
       pull-requests: write
 
     steps:
@@ -64,9 +66,6 @@ jobs:
           PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
           echo "PR number is ${PR_NUMBER}"
           echo "PR_NUMBER=${PR_NUMBER}" >> "${GITHUB_ENV}"
-
-      - name: Set up gotestfmt
-        uses: GoTestTools/gotestfmt-action@v2
 
       - name: Run unit test
         id: ut
