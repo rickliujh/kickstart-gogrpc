@@ -111,7 +111,7 @@ jobs:
         with:
           issue-number: ${{env.PR_NUMBER}}
           body: |
-            Test outcome: ${{steps.ut.outcome}}, report: 
+            Test outcome: ${{steps.ut.outcome}}, report:
             ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
       - name: Coverage guard
