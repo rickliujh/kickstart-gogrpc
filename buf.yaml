@@ -1,7 +1,8 @@
-# For details on buf.yaml configuration, visit https://buf.build/docs/configuration/v2/buf-yaml
+# For details on buf.yaml configuration,
+# visit https://buf.build/docs/configuration/v2/buf-yaml
 version: v2
 modules:
-  # If you have issue: Files with package "api.v1" must be within a directory "api/v1" 
+  # If you have issue: Files with package "api.v1" must be within a directory "api/v1"
   # relative to root but were in directory "v1".
   # See: https://github.com/bufbuild/buf/issues/201
   - path: .
@@ -11,4 +12,3 @@ lint:
 breaking:
   use:
     - FILE
-
