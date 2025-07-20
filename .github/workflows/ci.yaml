@@ -18,8 +18,12 @@ env:
 jobs:
   lint:
     runs-on: 'ubuntu-latest'
-    steps:
 
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -30,7 +34,7 @@ jobs:
       - name: Run yaml lint
         continue-on-error: true
         run: |-
-          sudo apt-get install -y yamllint
+          pip install --user yamllint
           make lint-yaml
 
       - name: Run Go lint
@@ -40,8 +44,12 @@ jobs:
 
   test:
     runs-on: 'ubuntu-latest'
-    steps:
 
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -88,15 +96,19 @@ jobs:
             ```
             ${{ fromJSON(steps.coverage.outputs.report) }}```
 
-      - name: Check coverage
+      - name: Coverage guard
         if: steps.coverage.outcome == 'failure' || steps.ut.outcome == 'failure'
         shell: bash
         run: echo "Unit test or coverage check failed" && exit 1
 
   govulncheck:
     runs-on: 'ubuntu-latest'
-    steps:
 
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -130,8 +142,8 @@ jobs:
     needs: [lint, test, govulncheck]
 
     permissions:
-      contents: 'read'
-      id-token: 'write'
+      contents: read
+      id-token: write
 
     steps:
 
