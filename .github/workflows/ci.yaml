@@ -71,7 +71,7 @@ jobs:
       - name: Run unit test
         id: ut
         continue-on-error: true
-        run: GO_TEST_ARGS=-json make test | tee /tmp/gotest.log
+        run: GO_TEST_ARGS=-json make test | tail -n +3 | tee /tmp/gotest.log
 
       - name: Test Report
         uses: dorny/test-reporter@v2
