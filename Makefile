@@ -31,8 +31,8 @@ upgrade: ## Upgrades all dependancies
 	go mod vendor
 
 .PHONY: test
-test: tidy ## Runs unit tests
-	go test -count=1 -race -covermode=atomic -coverprofile=cover.out ./...
+test: tidy ## Runs unit tests, GO_TEST_ARGS for extra args
+	go test -count=1 -race -covermode=atomic -coverprofile=cover.out $$GO_TEST_ARGS ./...
 
 .PHONY: lint
 lint: lint-go lint-yaml ## Lints the entire project 

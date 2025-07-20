@@ -1,0 +1,162 @@
+name: 'CI: Build, test, and push'
+
+on:
+  push:
+    branches:
+      - main 
+  
+  pull_request:
+    branches:
+      - main  
+
+env:
+  PROJECT_ID: go-kickstart
+  REGION: us-central1
+  GAR_REPO_NAME: go-kickstart
+  WORKLOAD_IDENTITY_PROVIDER: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider' # TODO: update to your workload identity provider
+
+
+jobs:
+  lint:
+    runs-on: 'ubuntu-latest'
+    steps:
+
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - uses: actions/setup-go@v5
+      with:
+        go-version: stable
+
+    - name: Run yaml lint
+      run: |-
+        sudo apt-get install -y yamllint
+        make lint-yaml
+
+    - name: Run Go lint
+      uses: golangci/golangci-lint-action@v8
+      with:
+        version: v2.1
+
+  test:
+    runs-on: 'ubuntu-latest'
+    steps:
+
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - uses: actions/setup-go@v5
+      with:
+        go-version: stable
+
+    - name: Get PR ID
+      id: pr_num
+      run: |-
+        PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
+        echo "PR number is ${PR_NUMBER}"
+        echo "PR_NUMBER=${PR_NUMBER}" >> "${GITHUB_ENV}"
+
+    - name: Set up gotestfmt
+      uses: GoTestTools/gotestfmt-action@v2
+
+    - name: Run unit test
+      run: GO_TEST_ARGS=-json make test | tee /tmp/gotest.log | gotestfmt
+
+    - name: Comment to PR
+      uses: peter-evans/create-or-update-comment@v4
+      with:
+        issue-number: ${{env.PR_NUMBER}}
+        body-path: /tmp/gotest.log
+
+    - name: check test coverage
+      id: coverage
+      uses: vladopajic/go-test-coverage@v2
+      with:
+        profile: cover.out
+        threshold:
+          file: 0
+          package: 0
+          total: 0
+        override:
+          - path: ^pkg/lib/foo$
+            threshold: 100
+        exclude:
+          paths:
+            - \.pb\.go$    # excludes all protobuf generated files
+            - ^pkg/bar     # exclude package `pkg/bar`
+        breakdown-file-name: ''
+        diff:
+          base-breakdown-file-name: ''
+          threshold: nil
+
+    - name: Comment to PR
+      uses: peter-evans/create-or-update-comment@v4
+      with:
+        issue-number: ${{env.PR_NUMBER}}
+        body: |
+          go-test-coverage report:
+          ```
+          ${{ fromJSON(steps.coverage.outputs.report) }}```
+
+    - name: Check coverage
+      if: steps.coverage.outcome == "failure"
+      shell: bash
+      run: echo "coverage check failed" && exit 1
+
+  govulncheck:
+    runs-on: 'ubuntu-latest'
+    steps:
+
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - uses: actions/setup-go@v5
+      with:
+        go-version: stable
+
+    - name: Install vulncheck and run
+      run: |-
+        go install golang.org/x/vuln/cmd/govulncheck@latest
+        make vulncheck | tee /tmp/govulncheck.log
+
+    - name: Get PR ID
+      id: pr_num
+      run: |-
+        PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
+        echo "PR number is ${PR_NUMBER}"
+        echo "PR_NUMBER=${PR_NUMBER}" >> "${GITHUB_ENV}"
+
+    - name: Comment to PR
+      uses: peter-evans/create-or-update-comment@v4
+      with:
+        issue-number: ${{env.PR_NUMBER}}
+        body-path: /tmp/govulncheck.log
+
+  image:
+    runs-on: 'ubuntu-latest'
+    needs: [lint, test, govulncheck]
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+
+    - id: gcp_auth
+      name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v2
+      with:
+        workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
+
+    - name: Docker Auth
+      uses: docker/login-action@v3
+      with:
+        username: oauth2accesstoken
+        password: ${{ steps.gcp_auth.outputs.auth_token }}
+        registry: ${{ env.REGION }}-docker.pkg.dev
+
+    - name: Build and Push Container
+      run: |-
+        DOCKER_TAG="$${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO_NAME }}:${{ github.sha }}"
+        docker build --tag "${DOCKER_TAG}" .
+        docker push "${DOCKER_TAG}"
