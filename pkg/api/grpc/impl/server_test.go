@@ -80,7 +80,7 @@ func TestScalar(t *testing.T) {
 		m.EXPECT().
 			ListAuthors(gomock.Any()).
 			Return([]Author{{ID: 0, Name: "test name", Bio: pgtype.Text{}}}, nil).
-			Times(1)
+			Times(2)
 
 		// Scalar example
 		reswrap, err := s.Scalar(ctx, req)
