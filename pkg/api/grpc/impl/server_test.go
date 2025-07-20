@@ -21,9 +21,7 @@ import (
 	tspb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
-var (
-	maxTestRunDuration = 180 * time.Second // 3 minutes
-)
+var maxTestRunDuration = 180 * time.Second // 3 minutes
 
 func TestScalar(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), maxTestRunDuration)

@@ -1,7 +1,11 @@
 package v1
 
-import "github.com/go-chi/chi/v5"
+import (
+	"log/slog"
 
-func Route(r *chi.Mux) {
-	CounterAPIs(r)
+	"github.com/go-chi/chi/v5"
+)
+
+func Route(r *chi.Mux, logger *slog.Logger) {
+	CounterAPIs(r, logger)
 }

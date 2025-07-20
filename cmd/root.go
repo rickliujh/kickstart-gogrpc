@@ -49,7 +49,8 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", fmt.Sprintf("config file (default is $HOME/%s.%s)", cfgFileName, cfgFileType))
+	rootCmd.PersistentFlags().
+		StringVar(&cfgFile, "config", "", fmt.Sprintf("config file (default is $HOME/%s.%s)", cfgFileName, cfgFileType))
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.

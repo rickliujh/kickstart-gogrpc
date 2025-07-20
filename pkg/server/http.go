@@ -46,11 +46,17 @@ func HTTPServer(addr, name, env, dbConnStr, levelStr string, isLocalhost, isDebu
 
 	// heath check
 	r.Get("/ping", func(w http.ResponseWriter, r *http.Request) {
-		w.Write(fmt.Appendf(nil, "Server: %s, Version: %s, Environment: %s", name, version, env))
+		_, err := w.Write(
+			fmt.Appendf(nil, "Server: %s, Version: %s, Environment: %s", name, version, env),
+		)
+		if err != nil {
+			logger.Error("Write to response error", "err", err)
+		}
 	})
 
-	v1.Route(r)
+	v1.Route(r, logger)
 
 	logger.Info(fmt.Sprintf("Starting HTTP server, listen on %s", addr))
-	http.ListenAndServe(addr, r)
+	err = http.ListenAndServe(addr, r)
+	panic(err)
 }

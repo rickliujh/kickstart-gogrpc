@@ -9,9 +9,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-var (
-	verbose bool
-)
+var verbose bool
 
 // httpCmd represents the http command
 var httpCmd = &cobra.Command{
@@ -34,5 +32,8 @@ func init() {
 
 	httpCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "enable verbose log output")
 
-	viper.BindPFlag("server.http.log.verbose", httpCmd.Flags().Lookup("verbose"))
+	err := viper.BindPFlag("server.http.log.verbose", httpCmd.Flags().Lookup("verbose"))
+	if err != nil {
+		panic(err)
+	}
 }

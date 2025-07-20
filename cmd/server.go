@@ -31,15 +31,36 @@ to quickly create a Cobra application.`,
 func init() {
 	rootCmd.AddCommand(serverCmd)
 
-	serverCmd.PersistentFlags().StringVarP(&addr, "address", "a", ":8080", "Address of server (host:port)")
+	serverCmd.PersistentFlags().
+		StringVarP(&addr, "address", "a", ":8080", "Address of server (host:port)")
 	serverCmd.PersistentFlags().StringVarP(&serName, "name", "n", "server", "Server name")
 	serverCmd.PersistentFlags().StringVarP(&env, "env", "e", "dev", "Server environment")
-	serverCmd.PersistentFlags().StringVarP(&dbConnStr, "db-connstr", "c", "postgres://username:password@localhost:5432/database_name", "Connection string for database")
+	serverCmd.PersistentFlags().
+		StringVarP(&dbConnStr, "db-connstr", "c", "postgres://username:password@localhost:5432/database_name", "Connection string for database")
 	serverCmd.PersistentFlags().StringVarP(&level, "level", "l", "INFO", "log level of the server")
 
-	viper.BindPFlag("server.address", serverCmd.Flags().Lookup("address"))
-	viper.BindPFlag("server.name", serverCmd.Flags().Lookup("name"))
-	viper.BindPFlag("server.env", serverCmd.Flags().Lookup("env"))
-	viper.BindPFlag("server.db-connstr", serverCmd.Flags().Lookup("db-connstr"))
-	viper.BindPFlag("server.level", serverCmd.Flags().Lookup("level"))
+	err := viper.BindPFlag("server.address", serverCmd.Flags().Lookup("address"))
+	if err != nil {
+		panic(err)
+	}
+
+	err = viper.BindPFlag("server.name", serverCmd.Flags().Lookup("name"))
+	if err != nil {
+		panic(err)
+	}
+
+	err = viper.BindPFlag("server.env", serverCmd.Flags().Lookup("env"))
+	if err != nil {
+		panic(err)
+	}
+
+	err = viper.BindPFlag("server.db-connstr", serverCmd.Flags().Lookup("db-connstr"))
+	if err != nil {
+		panic(err)
+	}
+
+	err = viper.BindPFlag("server.level", serverCmd.Flags().Lookup("level"))
+	if err != nil {
+		panic(err)
+	}
 }

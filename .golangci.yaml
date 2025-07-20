@@ -142,7 +142,7 @@ output:
   sort-order:
     - linter
     - severity
-    - file # filepath, line, and column.
+    - file  # filepath, line, and column.
   # Show statistics per linter.
   # Default: true
   show-stats: true
