@@ -20,6 +20,10 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
 
+    permissions:
+      contents: read
+      pull-requests: write
+
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -41,6 +45,10 @@ jobs:
   test:
     runs-on: 'ubuntu-latest'
     steps:
+
+    permissions:
+      contents: read
+      pull-requests: write
 
       - name: Checkout code
         uses: actions/checkout@v4
@@ -97,6 +105,10 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
 
+    permissions:
+      contents: read
+      pull-requests: write
+
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -130,8 +142,8 @@ jobs:
     needs: [lint, test, govulncheck]
 
     permissions:
-      contents: 'read'
-      id-token: 'write'
+      contents: read
+      id-token: write
 
     steps:
 
