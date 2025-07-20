@@ -51,6 +51,7 @@ jobs:
 
     - name: Get PR ID
       id: pr_num
+      if: github.event_name == 'pull_request'
       run: |-
         PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
         echo "PR number is ${PR_NUMBER}"
@@ -60,9 +61,12 @@ jobs:
       uses: GoTestTools/gotestfmt-action@v2
 
     - name: Run unit test
+      id: ut
+      continue-on-error: true
       run: GO_TEST_ARGS=-json make test | tee /tmp/gotest.log | gotestfmt
 
     - name: Comment to PR
+      if: github.event_name == 'pull_request'
       uses: peter-evans/create-or-update-comment@v4
       with:
         issue-number: ${{env.PR_NUMBER}}
@@ -75,6 +79,7 @@ jobs:
         config: ./.testcoverage.yml
 
     - name: Comment to PR
+      if: github.event_name == 'pull_request'
       uses: peter-evans/create-or-update-comment@v4
       with:
         issue-number: ${{env.PR_NUMBER}}
@@ -84,9 +89,9 @@ jobs:
           ${{ fromJSON(steps.coverage.outputs.report) }}```
 
     - name: Check coverage
-      if: steps.coverage.outcome == 'failure'
+      if: steps.coverage.outcome == 'failure' || steps.ut.outcome == 'failure'
       shell: bash
-      run: echo "coverage check failed" && exit 1
+      run: echo "Unit test or coverage check failed" && exit 1
 
   govulncheck:
     runs-on: 'ubuntu-latest'
@@ -100,18 +105,21 @@ jobs:
         go-version: stable
 
     - name: Install vulncheck and run
+      continue-on-error: true
       run: |-
         go install golang.org/x/vuln/cmd/govulncheck@latest
         make vulncheck | tee /tmp/govulncheck.log
 
     - name: Get PR ID
       id: pr_num
+      if: github.event_name == 'pull_request'
       run: |-
         PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
         echo "PR number is ${PR_NUMBER}"
         echo "PR_NUMBER=${PR_NUMBER}" >> "${GITHUB_ENV}"
 
     - name: Comment to PR
+      if: github.event_name == 'pull_request'
       uses: peter-evans/create-or-update-comment@v4
       with:
         issue-number: ${{env.PR_NUMBER}}
