@@ -72,22 +72,7 @@ jobs:
       id: coverage
       uses: vladopajic/go-test-coverage@v2
       with:
-        profile: cover.out
-        threshold:
-          file: 0
-          package: 0
-          total: 0
-        override:
-          - path: ^pkg/lib/foo$
-            threshold: 100
-        exclude:
-          paths:
-            - \.pb\.go$    # excludes all protobuf generated files
-            - ^pkg/bar     # exclude package `pkg/bar`
-        breakdown-file-name: ''
-        diff:
-          base-breakdown-file-name: ''
-          threshold: nil
+        config: ./.testcoverage.yml
 
     - name: Comment to PR
       uses: peter-evans/create-or-update-comment@v4
