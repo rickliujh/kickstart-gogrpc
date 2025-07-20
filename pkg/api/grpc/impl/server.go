@@ -22,7 +22,7 @@ const (
 	success  = "processed successfully"
 )
 
-func NewServer(name, version, environment string, db *sql.Queries, logger *slog.Logger) (*Server, error) {
+func NewServer(name, version, environment string, db sql.Querier, logger *slog.Logger) (*Server, error) {
 	if name == "" {
 		return nil, errors.New("name is required")
 	}
@@ -47,7 +47,7 @@ func NewServer(name, version, environment string, db *sql.Queries, logger *slog.
 type Server struct {
 	counter     service.Counter
 	logger      *slog.Logger
-	db          *sql.Queries
+	db          sql.Querier
 	name        string // server name
 	version     string // server version
 	environment string // server environment

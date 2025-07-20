@@ -15,6 +15,7 @@ init: ## Init tools that used in the project
 	go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@v4.18.1
 	go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
 	go install github.com/spf13/cobra-cli@latest
+	go install go.uber.org/mock/mockgen@latest
 	GOBIN=/usr/local/bin go install github.com/bufbuild/buf/cmd/buf@v1.54.0
 .PHONY: version
 version: ## Prints the current version
@@ -117,6 +118,10 @@ build-prod: ## Compile binary by disable CGO and omits DWARF symbol table and de
 build-dev: ## Compile binary by disable CGO and omits DWARF symbol table and debug info
 	@echo Buidling binary to $(PROJ_BIN_PATH)
 	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -ldflags='-extldflags "-static"' -o $(PROJ_BIN_PATH)$${APP_NAME} .
+
+.PHONY: mock
+mock: ## Generate test mock files for interfaces
+	go generate ./...
 
 .PHONY: help
 help: ## Display available commands
