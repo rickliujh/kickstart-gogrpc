@@ -47,6 +47,8 @@ jobs:
 
     permissions:
       contents: read
+      actions: read
+      checks: write
       pull-requests: write
 
     steps:
@@ -65,20 +67,19 @@ jobs:
           echo "PR number is ${PR_NUMBER}"
           echo "PR_NUMBER=${PR_NUMBER}" >> "${GITHUB_ENV}"
 
-      - name: Set up gotestfmt
-        uses: GoTestTools/gotestfmt-action@v2
-
       - name: Run unit test
         id: ut
         continue-on-error: true
-        run: GO_TEST_ARGS=-json make test | tee /tmp/gotest.log | gotestfmt
+        run: GO_TEST_ARGS=-json make test | tail -n +3 | tee /tmp/gotest.log
 
-      - name: Comment to PR
-        if: github.event_name == 'pull_request'
-        uses: peter-evans/create-or-update-comment@v4
+      - name: Test Report
+        continue-on-error: true
+        uses: dorny/test-reporter@v2
+        if: ${{ !cancelled() }}
         with:
-          issue-number: ${{env.PR_NUMBER}}
-          body-path: /tmp/gotest.log
+          name: Unit Tests Report
+          path: /tmp/gotest.log
+          reporter: golang-json
 
       - name: check test coverage
         id: coverage
@@ -86,7 +87,7 @@ jobs:
         with:
           config: ./.github/.testcoverage.yaml
 
-      - name: Comment to PR
+      - name: Comment coverage report to PR
         if: github.event_name == 'pull_request'
         uses: peter-evans/create-or-update-comment@v4
         with:
@@ -95,6 +96,15 @@ jobs:
             go-test-coverage report:
             ```
             ${{ fromJSON(steps.coverage.outputs.report) }}```
+
+      - name: Comment test report to PR
+        if: github.event_name == 'pull_request'
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{env.PR_NUMBER}}
+          body: |
+            Test outcome: ${{steps.ut.outcome}}, report: 
+            ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
       - name: Coverage guard
         if: steps.coverage.outcome == 'failure' || steps.ut.outcome == 'failure'
