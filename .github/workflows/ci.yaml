@@ -32,15 +32,23 @@ jobs:
           go-version: stable
 
       - name: Run yaml lint
+        id: yamllint
         continue-on-error: true
         run: |-
           pip install --user yamllint
           make lint-yaml
 
       - name: Run Go lint
+        id: golint
+        continue-on-error: true
         uses: golangci/golangci-lint-action@v8
         with:
           version: v2.2.2
+
+      - name: Linter guard
+        if: steps.yamllint.outcome == 'failure' || steps.golint.outcome == 'failure'
+        shell: bash
+        run: echo "Linter check failed" && exit 1
 
   test:
     runs-on: 'ubuntu-latest'
