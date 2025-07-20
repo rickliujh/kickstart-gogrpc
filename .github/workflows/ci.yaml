@@ -71,8 +71,7 @@ jobs:
       - name: Run unit test
         id: ut
         continue-on-error: true
-        run: GO_TEST_ARGS=-json make test | tee /tmp/gotest.log | gotestfmt
-
+        run: GO_TEST_ARGS=-json make test | gotestfmt | tee /tmp/gotest.log
       - name: Comment to PR
         if: github.event_name == 'pull_request'
         uses: peter-evans/create-or-update-comment@v4
