@@ -30,7 +30,7 @@ jobs:
       - name: Run yaml lint
         continue-on-error: true
         run: |-
-          sudo apt-get install -y yamllint
+          pip install --user yamllint
           make lint-yaml
 
       - name: Run Go lint
