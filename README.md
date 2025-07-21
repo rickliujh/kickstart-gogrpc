@@ -19,6 +19,8 @@ Two type of build:
 #### Choose the type of build 
 `docker build -t kickstart-go:v0.0.1 --build-arg BUILD_TYPE=prod .`
 
+Allowed value: one of [prod, dev]
+
 #### Specify name of the binary being built
 `docker build -t kickstart-go:v0.0.1 --build-arg APP_NAME=my-app .`
 
