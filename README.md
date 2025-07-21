@@ -9,6 +9,13 @@ Boilerplate of GRPC server for go
 - AAA
 - Error handler (middleware)
 
+## Decisions
+
+### No pre-commit hooks
+The boilerplate do not provide pre-commit hooks of all sorts. Allow fast local commits is a major upside of DVCS. Clean commit can be achieved during pre-push or during pre-merge at PR level with CI scan.
+
+See: [Reddit Discussion](https://www.reddit.com/r/rust/comments/13h78se/comment/jk3mgpx/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button)
+
 ### Build
 Two type of build:
 1. `make build-dev`: static link but with debug info reserved
