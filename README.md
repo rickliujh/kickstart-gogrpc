@@ -16,6 +16,8 @@ The boilerplate do not provide pre-commit hooks of all sorts. Allow fast local c
 
 See: [Reddit Discussion](https://www.reddit.com/r/rust/comments/13h78se/comment/jk3mgpx/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button)
 
+## Guides
+
 ### Build
 Two type of build:
 1. `make build-dev`: static link but with debug info reserved
