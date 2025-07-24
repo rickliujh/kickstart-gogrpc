@@ -15,7 +15,6 @@ env:
 
   GAR_REPO_NAME: ${{ vars.GAR_REPO_NAME }}
   WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCP_WIF_PROVIDER }}
-  CLOUD_RUN_FlAGS: ${{ vars.CLOUD_RUN_FlAGS }}
 
 jobs:
   lint:
@@ -210,7 +209,6 @@ jobs:
           service: ${{ env.SERVICE_NAME }}
           region: ${{ env.REGION }}
           image: ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO_NAME }}/${{env.SERVICE_NAME}}:${{ github.sha }}
-          flags: ${{ env.CLOUD_RUN_FlAGS }}
 
       - name: 'Show output'
         run: |2-
