@@ -39,27 +39,27 @@ func init() {
 		StringVarP(&dbConnStr, "db-connstr", "c", "postgres://username:password@localhost:5432/database_name", "Connection string for database")
 	serverCmd.PersistentFlags().StringVarP(&level, "level", "l", "INFO", "log level of the server")
 
-	err := viper.BindPFlag("server.address", serverCmd.Flags().Lookup("address"))
+	err := viper.BindPFlag("server.address", serverCmd.PersistentFlags().Lookup("address"))
 	if err != nil {
 		panic(err)
 	}
 
-	err = viper.BindPFlag("server.name", serverCmd.Flags().Lookup("name"))
+	err = viper.BindPFlag("server.name", serverCmd.PersistentFlags().Lookup("name"))
 	if err != nil {
 		panic(err)
 	}
 
-	err = viper.BindPFlag("server.env", serverCmd.Flags().Lookup("env"))
+	err = viper.BindPFlag("server.env", serverCmd.PersistentFlags().Lookup("env"))
 	if err != nil {
 		panic(err)
 	}
 
-	err = viper.BindPFlag("server.db-connstr", serverCmd.Flags().Lookup("db-connstr"))
+	err = viper.BindPFlag("server.db-connstr", serverCmd.PersistentFlags().Lookup("db-connstr"))
 	if err != nil {
 		panic(err)
 	}
 
-	err = viper.BindPFlag("server.level", serverCmd.Flags().Lookup("level"))
+	err = viper.BindPFlag("server.level", serverCmd.PersistentFlags().Lookup("level"))
 	if err != nil {
 		panic(err)
 	}

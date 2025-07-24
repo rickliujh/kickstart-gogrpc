@@ -32,7 +32,7 @@ func init() {
 
 	httpCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "enable verbose log output")
 
-	err := viper.BindPFlag("server.http.log.verbose", httpCmd.Flags().Lookup("verbose"))
+	err := viper.BindPFlag("server.http.log.verbose", httpCmd.PersistentFlags().Lookup("verbose"))
 	if err != nil {
 		panic(err)
 	}
