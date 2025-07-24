@@ -11,7 +11,7 @@ on:
 env:
   PROJECT_ID: go-kickstart
   REGION: us-central1
-  SERVICE_NAME: go-kickstart
+  SERVICE_NAME: kickstart-server
 
   GAR_REPO_NAME: ${{vars.GAR_REPO_NAME}}
   WORKLOAD_IDENTITY_PROVIDER: ${{secrets.GCP_WIF_PROVIDER}}
@@ -184,7 +184,7 @@ jobs:
 
       - name: Build and Push Container
         run: |-
-          DOCKER_TAG="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO_NAME }}:${{ github.sha }}"
+          DOCKER_TAG="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO_NAME }}/${{env.SERVICE_NAME}}:${{ github.sha }}"
           docker build --tag "${DOCKER_TAG}" .
           docker push "${DOCKER_TAG}"
 
@@ -206,9 +206,9 @@ jobs:
       - id: run
         uses: google-github-actions/deploy-cloudrun@v2
         with:
-          service: ${{ env.SERVICE }}
+          service: ${{ env.SERVICE_NAME }}
           region: ${{ env.REGION }}
-          image: ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}
+          image: ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO_NAME }}/${{env.SERVICE_NAME}}:${{ github.sha }}
 
       - name: 'Show output'
         run: |2-
