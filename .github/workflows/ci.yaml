@@ -11,7 +11,7 @@ on:
 env:
   PROJECT_ID: go-kickstart
   REGION: us-central1
-  SERVICE_NAME: kickstart-server
+  SERVICE_NAME: go-kickstart-service
 
   GAR_REPO_NAME: ${{ vars.GAR_REPO_NAME }}
   WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCP_WIF_PROVIDER }}
