@@ -140,14 +140,15 @@ variable "billing_account" {
 }
 
 module "github_actions" {
-  source                 = "github.com/rickliujh/tf-tmpl//gcp/modules/github-actions"
-  project_id             = google_project.proj.project_id
-  github_org             = "rickliujh"
-  github_repo            = "kickstart-gogrpc"
-  github_org_id          = "36358701"
-  artifect_repository_id = google_artifact_registry_repository.gar.repository_id
-  cloud_run_service_name = google_cloud_run_v2_service.kickstart_svc.name
-  override_wif_pool_id   = "github-actions-pool2"
+  source                          = "github.com/rickliujh/tf-tmpl//gcp/modules/github-actions"
+  project_id                      = google_project.proj.project_id
+  github_org                      = "rickliujh"
+  github_repo                     = "kickstart-gogrpc"
+  github_org_id                   = "36358701"
+  artifect_repository_id          = google_artifact_registry_repository.gar.repository_id
+  cloud_run_service_name          = google_cloud_run_v2_service.kickstart_svc.name
+  override_wif_pool_id            = "github-actions-pool2"
+  github_token_secret_manager_key = "kickstart-gogrpc-ci-github-token"
 }
 
 data "google_secret_manager_secret_version" "github_token" {
