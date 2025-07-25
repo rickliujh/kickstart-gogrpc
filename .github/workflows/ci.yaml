@@ -1,12 +1,19 @@
 name: 'CI: Build, test, and push'
+run-name: ${{ github.actor }} running on a PR or merge 🚀
 
 on:
   push:
     branches:
       - main
+    paths-ignore:
+      - 'terraform/**'
+      - 'docs/**'
   pull_request:
     branches:
       - main
+    paths-ignore:
+      - 'terraform/**'
+      - 'docs/**'
 
 env:
   PROJECT_ID: go-kickstart
