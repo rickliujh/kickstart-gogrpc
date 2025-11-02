@@ -58,5 +58,7 @@ func HTTPServer(addr, name, env, dbConnStr, levelStr string, isLocalhost, isDebu
 
 	logger.Info(fmt.Sprintf("Starting HTTP server, listen on %s", addr))
 	err = http.ListenAndServe(addr, r)
-	panic(err)
+	if err != nil {
+		panic(err)
+	}
 }
