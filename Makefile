@@ -39,7 +39,7 @@ test: tidy ## Runs unit tests, GO_TEST_ARGS for extra args
 lint: lint-go lint-yaml ## Lints the entire project 
 	@echo "Completed Go and YAML lints"
 
-.PHONY: lint
+.PHONY: lint-go
 lint-go: ## Lints the entire project using go 
 	golangci-lint -c .golangci.yaml run
 
